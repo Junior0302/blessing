@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BRAND } from "@/lib/constants";
 import { useWelcome } from "@/lib/welcome-context";
+import { CircularText } from "@/components/ui/CircularText";
 
 const WELCOME_DURATION_MS = 6500;
 const EXIT_DURATION_MS = 1200;
 const WELCOME_KEY = "blessing-welcomed";
+
+const CIRCLE_TEXT =
+  " ✦ BLESSING ✦ ART DU DESSERT ✦ PANCAKES ✦ GAUFRES ✦ CHOCOLAT ✦ MIEL ✦ ";
 
 export function WelcomeScreen() {
   const { isWelcomeComplete, completeWelcome } = useWelcome();
@@ -17,14 +21,13 @@ export function WelcomeScreen() {
   useEffect(() => {
     if (isWelcomeComplete) return;
 
-    // Déjà vu dans cet onglet : pas de re-blocage à chaque rechargement.
     try {
       if (sessionStorage.getItem(WELCOME_KEY)) {
         completeWelcome();
         return;
       }
     } catch {
-      // sessionStorage indisponible (mode privé strict, etc.)
+      /* ignore */
     }
 
     document.body.style.overflow = "hidden";
@@ -49,7 +52,6 @@ export function WelcomeScreen() {
       }
     }, 50);
 
-    // Failsafe : ne jamais bloquer le site indéfiniment.
     const failsafe = window.setTimeout(() => {
       clearInterval(interval);
       try {
@@ -82,23 +84,32 @@ export function WelcomeScreen() {
           aria-busy="true"
         >
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-            className="px-6 text-center"
+            className="flex flex-col items-center px-6 text-center"
           >
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.4em] text-amber">
+            <CircularText
+              text={CIRCLE_TEXT}
+              size={280}
+              centerImage="/images/1.png"
+              centerLabel={BRAND.name}
+              duration={16}
+              className="mb-8 md:mb-10"
+            />
+
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.4em] text-amber">
               Bienvenue
             </p>
-            <h1 className="font-brand text-6xl text-noir md:text-8xl">{BRAND.name}</h1>
-            <p className="mt-4 font-display text-xl italic text-noir/60 md:text-2xl">
+            <h1 className="font-brand text-5xl text-noir md:text-7xl">{BRAND.name}</h1>
+            <p className="mt-3 font-display text-lg italic text-noir/60 md:text-xl">
               {BRAND.tagline}
             </p>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 1 }}
-              className="mt-8 max-w-md text-sm leading-relaxed text-noir/50"
+              transition={{ delay: 1.2, duration: 1 }}
+              className="mt-6 max-w-md text-sm leading-relaxed text-noir/50"
             >
               Préparez-vous à une expérience gourmande d&apos;exception…
             </motion.p>

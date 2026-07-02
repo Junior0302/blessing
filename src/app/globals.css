@@ -61,6 +61,25 @@ html.welcome-loading body {
   display: none;
 }
 
+/* Texte circulaire animé — https://codepen.io/pedroo-andre/pen/gOeqqEb */
+.circular-text-ring {
+  animation: circular-text-spin linear infinite;
+}
+
+.circular-text-ring--reverse {
+  animation-direction: reverse;
+}
+
+@keyframes circular-text-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.circular-text-char {
+  top: 0;
+}
+
 .font-brand {
   font-family: var(--font-brand), var(--font-display), serif;
 }

@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
+import { CircularText } from "@/components/ui/CircularText";
 
 const values = [
   {
@@ -84,15 +85,16 @@ export function AboutContent() {
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.15 }}
-              className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-card"
+              className="flex items-center justify-center py-8 lg:py-0"
             >
-              <Image
-                src="/images/6.png"
-                alt="Création dessert Blessing"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
+              <CircularText
+                text=" ✦ PASSION ✦ SAVOIR-FAIRE ✦ MATIÈRES ✦ BLESSING ✦ CRÉATIONS ✦ "
+                size={320}
+                centerImage="/images/6.png"
+                centerLabel="Blessing"
+                duration={18}
+                reverse
+                className="md:scale-110"
               />
             </motion.div>
           </div>
