@@ -41,7 +41,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-noir/8 bg-cream/90 py-4 shadow-soft backdrop-blur-xl">
+      <header className="sticky top-0 z-[220] border-b border-noir/8 bg-cream/90 py-4 shadow-soft backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8 lg:px-12">
           <Link
             href="/"
@@ -132,7 +132,7 @@ export function SiteHeader() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-cream lg:hidden"
+            className="fixed inset-0 z-[215] bg-cream lg:hidden"
           >
             <nav
               className="flex h-full flex-col items-center justify-center gap-8"

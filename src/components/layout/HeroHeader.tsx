@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BRAND, NAV_LINKS } from "@/lib/constants";
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { useNavigation } from "./NavigationProvider";
 
 export function HeroHeader() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const {
     mobileMenuOpen,
@@ -31,7 +33,7 @@ export function HeroHeader() {
   }, [mobileMenuOpen]);
 
   const handleNavClick = (href: string) => {
-    if (href !== "/") {
+    if (href !== pathname) {
       startNavigation();
     } else {
       closeMobileMenu();
@@ -122,7 +124,7 @@ export function HeroHeader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[45] bg-noir lg:hidden"
+            className="fixed inset-0 z-[215] bg-noir lg:hidden"
           >
             <nav
               className="flex h-full flex-col items-center justify-center gap-7 px-8 pt-16"

@@ -4,10 +4,13 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
+import { usePathname } from "next/navigation";
 
 interface NavigationContextValue {
   isNavigating: boolean;
@@ -21,13 +24,13 @@ interface NavigationContextValue {
 const NavigationContext = createContext<NavigationContextValue | null>(null);
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const prevPathname = useRef(pathname);
   const [isNavigating, setIsNavigating] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const startNavigation = useCallback(() => {
     setIsNavigating(true);
-    // L'overlay de transition opaque couvre l'écran : on peut fermer
-    // le menu immédiatement sans que l'utilisateur ne le voie.
     setMobileMenuOpen(false);
   }, []);
 
@@ -38,6 +41,15 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const closeMobileMenu = useCallback(() => {
     setMobileMenuOpen(false);
   }, []);
+
+  // Filet de sécurité : la route a changé → on débloque toujours l'interface.
+  useEffect(() => {
+    if (prevPathname.current !== pathname) {
+      prevPathname.current = pathname;
+      setIsNavigating(false);
+      setMobileMenuOpen(false);
+    }
+  }, [pathname]);
 
   const value = useMemo(
     () => ({

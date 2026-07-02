@@ -7,6 +7,7 @@ import { useWelcome } from "@/lib/welcome-context";
 
 const WELCOME_DURATION_MS = 6500;
 const EXIT_DURATION_MS = 1200;
+const WELCOME_KEY = "blessing-welcomed";
 
 export function WelcomeScreen() {
   const { isWelcomeComplete, completeWelcome } = useWelcome();
@@ -15,6 +16,16 @@ export function WelcomeScreen() {
 
   useEffect(() => {
     if (isWelcomeComplete) return;
+
+    // Déjà vu dans cet onglet : pas de re-blocage à chaque rechargement.
+    try {
+      if (sessionStorage.getItem(WELCOME_KEY)) {
+        completeWelcome();
+        return;
+      }
+    } catch {
+      // sessionStorage indisponible (mode privé strict, etc.)
+    }
 
     document.body.style.overflow = "hidden";
 
@@ -27,20 +38,38 @@ export function WelcomeScreen() {
         clearInterval(interval);
         setVisible(false);
         window.setTimeout(() => {
+          try {
+            sessionStorage.setItem(WELCOME_KEY, "1");
+          } catch {
+            /* ignore */
+          }
           completeWelcome();
           document.body.style.overflow = "";
         }, EXIT_DURATION_MS);
       }
     }, 50);
 
+    // Failsafe : ne jamais bloquer le site indéfiniment.
+    const failsafe = window.setTimeout(() => {
+      clearInterval(interval);
+      try {
+        sessionStorage.setItem(WELCOME_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+      completeWelcome();
+      document.body.style.overflow = "";
+    }, WELCOME_DURATION_MS + EXIT_DURATION_MS + 2000);
+
     return () => {
       clearInterval(interval);
+      clearTimeout(failsafe);
       document.body.style.overflow = "";
     };
   }, [isWelcomeComplete, completeWelcome]);
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {!isWelcomeComplete && visible && (
         <motion.div
           key="welcome"

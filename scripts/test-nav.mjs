@@ -10,13 +10,6 @@ const consoleErrors = [];
 
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 
-async function waitForWelcome(page) {
-  await page.waitForFunction(
-    () => !document.documentElement.classList.contains("welcome-loading"),
-    { timeout: 15000 },
-  );
-}
-
 async function newPage(viewport) {
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
@@ -24,12 +17,13 @@ async function newPage(viewport) {
     if (msg.type() === "error") consoleErrors.push(`[${viewport.width}px] ${msg.text()}`);
   });
   page.on("pageerror", (err) => consoleErrors.push(`[${viewport.width}px] PAGEERROR: ${err.message}`));
+  await page.addInitScript(() => sessionStorage.setItem("blessing-welcomed", "1"));
   return { ctx, page };
 }
 
 async function open(page, url) {
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 20000 });
-  await waitForWelcome(page);
+  await page.waitForTimeout(800);
 }
 
 try {

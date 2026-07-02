@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
 import localFont from "next/font/local";
 import { ClientProviders } from "@/components/layout/ClientProviders";
@@ -50,6 +51,9 @@ export default function RootLayout({
       className={`welcome-loading ${cormorant.variable} ${outfit.variable} ${sugarLoved.variable}`}
     >
       <body className="min-h-screen antialiased">
+        <Script id="welcome-skip" strategy="beforeInteractive">
+          {`(function(){try{if(sessionStorage.getItem('blessing-welcomed')){document.documentElement.classList.remove('welcome-loading');var p=document.getElementById('welcome-preload');if(p)p.remove();}}catch(e){}})();`}
+        </Script>
         <div
           id="welcome-preload"
           className="pointer-events-none fixed inset-0 z-[499] bg-cream"
