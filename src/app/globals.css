@@ -49,6 +49,18 @@ html.welcome-loading body {
   overflow: hidden;
 }
 
+/* Galerie — scroll infini Lenis (inspiré infinite-scroll-with-parallax) */
+.gallery-page,
+.gallery-wrapper {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gallery-page::-webkit-scrollbar,
+.gallery-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
 .font-brand {
   font-family: var(--font-brand), var(--font-display), serif;
 }

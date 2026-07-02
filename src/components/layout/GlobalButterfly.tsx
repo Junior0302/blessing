@@ -152,9 +152,10 @@ export function GlobalButterfly() {
   const pathname = usePathname();
   const scrollProgress = useRef(0);
   const isHome = pathname === "/";
+  const isGallery = pathname === "/galerie";
 
   useEffect(() => {
-    if (isHome) return;
+    if (isHome || isGallery) return;
 
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -164,9 +165,9 @@ export function GlobalButterfly() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isHome, pathname]);
+  }, [isHome, isGallery, pathname]);
 
-  if (isHome) return null;
+  if (isHome || isGallery) return null;
 
   return (
     <div
