@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-noir: #1a1816;
+  --color-noir-soft: #2a2622;
+  --color-amber: #c87941;
+  --color-amber-light: #d4894a;
+  --color-cream: #faf6f1;
+  --color-cream-muted: #f0ebe4;
+  --color-gold: #c9a962;
+  --color-gold-subtle: rgba(201, 169, 98, 0.15);
+
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-outfit);
+  --font-brand: var(--font-brand-face);
+
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-soft: 0 4px 24px rgba(26, 24, 22, 0.06);
+  --shadow-card: 0 12px 40px rgba(26, 24, 22, 0.1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-noir);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+.font-brand {
+  font-family: var(--font-brand), var(--font-display), serif;
+}
+
+::selection {
+  background-color: rgba(200, 121, 65, 0.25);
+  color: var(--color-noir);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 3px;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(26, 24, 22, 0.08);
+}
+
+.glass-dark {
+  background: rgba(26, 24, 22, 0.45);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(
+    120deg,
+    #fff8f0 0%,
+    var(--color-gold) 30%,
+    var(--color-amber) 50%,
+    var(--color-gold) 70%,
+    #fff8f0 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gold-shimmer 7s linear infinite;
+}
+
+@keyframes gold-shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.loader-bar {
+  background: linear-gradient(90deg, transparent, var(--color-amber), var(--color-gold), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.custom-cursor-dot,
+.custom-cursor-ring {
+  will-change: transform;
+  transition: border-color 0.3s ease;
+}
+
+html.custom-cursor-active .custom-cursor-ring {
+  mix-blend-mode: multiply;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
