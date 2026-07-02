@@ -45,8 +45,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${cormorant.variable} ${outfit.variable} ${sugarLoved.variable}`}>
+    <html
+      lang="fr"
+      className={`welcome-loading ${cormorant.variable} ${outfit.variable} ${sugarLoved.variable}`}
+    >
       <body className="min-h-screen antialiased">
+        <div
+          id="welcome-preload"
+          className="pointer-events-none fixed inset-0 z-[499] bg-cream"
+          aria-hidden="true"
+        />
         <ClientProviders>
           <main>{children}</main>
         </ClientProviders>

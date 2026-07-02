@@ -39,6 +39,16 @@ body {
   overflow-x: hidden;
 }
 
+/* Masque le contenu dès le premier paint HTML, avant hydratation React */
+html.welcome-loading main {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+html.welcome-loading body {
+  overflow: hidden;
+}
+
 .font-brand {
   font-family: var(--font-brand), var(--font-display), serif;
 }
